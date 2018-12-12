@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import sys
 import pandas as pd
 
 
@@ -40,6 +39,25 @@ plt.title("Petal Length Boxplot")
 plt.ylabel('Petal Length')
 plt.boxplot(b, labels=['setosa','virginica','versicolor'])
 plt.show()
+
+
+# Draw boxplot for Sepal.Length over classes
+b = [a.loc[a['Species']=='setosa']['Sepal.Length'], a.loc[a['Species']=='virginica']['Sepal.Length'], a.loc[a['Species']=='versicolor']['Sepal.Length']]
+
+plt.title("Sepal.Length Boxplot")
+plt.ylabel('Sepal.Length')
+plt.boxplot(b, labels=['setosa','virginica','versicolor'])
+plt.show()
+
+
+# Draw boxplot for Petal.Width over classes
+b = [a.loc[a['Species']=='setosa']['Petal.Width'], a.loc[a['Species']=='virginica']['Petal.Width'], a.loc[a['Species']=='versicolor']['Petal.Width']]
+
+plt.title("Petal.Width Boxplot")
+plt.ylabel('Petal.Width')
+plt.boxplot(b, labels=['setosa','virginica','versicolor'])
+plt.show()
+
 
 
 
