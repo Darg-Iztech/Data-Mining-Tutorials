@@ -19,13 +19,7 @@ d = pd.read_csv('iris.txt',names=colnames)
 
 #select features
 linearRegressionInput = d['Sepal.Length'].values[:,np.newaxis]
-linearRegressionTarget = d['Species']
-
-
-#encode the target values
-le = preprocessing.LabelEncoder()
-le.fit(["setosa", "versicolor", "virginica"])
-linearRegressionTarget = le.transform(linearRegressionTarget)
+linearRegressionTarget = d['Petal.Length']
 
 
 #divide the data into training and test
@@ -43,37 +37,16 @@ print("y = ax + b\na=" + str(linReg.coef_[0]) + "  b=" + str(linReg.intercept_))
 
 
 #test the model and print accuracy
-print("\nAccuracy of the model: " + str(linReg.score(test_input, test_target)))
+linReg2 = LinearRegression()
+scores = cross_val_score(linReg2, linearRegressionInput, linearRegressionTarget, cv=10)
+print("Cross Validation scores:" + str(scores))
+print("Mean of cross validation values:" + str(scores.mean()))
+print("Score of the model: " + str(linReg.score(test_input, test_target)))
 
 
-#plot the curve
-setosa_target = []
-versicolor_target = []
-virginica_target = []
-setosa = []
-versicolor = []
-virginica = []
-
-predictions = linReg.predict(training_input)
-i = 0
-for pred in predictions:
-	if abs(pred-0) < abs(pred-1) and abs(pred-0) < abs(pred-2):
-		setosa.append(training_input[i])
-		setosa_target.append(training_target[i])
-
-	elif abs(pred-1) < abs(pred-0) and abs(pred-1) < abs(pred-2):
-		versicolor.append(training_input[i])
-		versicolor_target.append(training_target[i])
-
-	else:
-		virginica.append(training_input[i])
-		virginica_target.append(training_target[i])
-	i+=1
-
-plt.scatter(setosa, setosa_target, color='r')
-plt.scatter(versicolor, versicolor_target, color='g')
-plt.scatter(virginica, virginica_target, color='b')
-#plt.plot(training_input, linReg.predict(training_input), color='k')
+#plot the line
+plt.scatter(training_input, training_target, color='g')
+plt.plot(training_input, linReg.predict(training_input), color='k')
 plt.show()
 
 
@@ -84,7 +57,7 @@ plt.show()
 
 
 #########################################################################################
-#    			LINEAR REGRESSSION WITH SINGLE FEATURE 				#
+#    			LINEAR REGRESSSION WITH MULTIPLE FEATURE 				#
 #########################################################################################
 
 #read the data
@@ -93,18 +66,13 @@ d = pd.read_csv('iris.txt',names=colnames)
 d = shuffle(d)
 
 #select features
-linearRegressionInput = d.get_values()[:,0:4]
-linearRegressionTarget = d['Species']
-
-#encode the target values
-le = preprocessing.LabelEncoder()
-le.fit(["setosa", "versicolor", "virginica"])
-linearRegressionTarget = le.transform(linearRegressionTarget)
+linearRegressionInput = d.get_values()[:,0:3]
+linearRegressionTarget = d['Petal.Width']
 
 #create and fit the model
 linReg = LinearRegression()
 scores = cross_val_score(linReg, linearRegressionInput, linearRegressionTarget, cv=10)
-print("Cross Validation scores:\n" + str(scores))
+print("\n\nCross Validation scores:\n" + str(scores))
 print("\nMean of cross validation values:" + str(scores.mean()))
 
 
